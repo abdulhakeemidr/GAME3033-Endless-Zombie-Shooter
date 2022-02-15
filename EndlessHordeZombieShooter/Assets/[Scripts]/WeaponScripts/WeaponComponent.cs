@@ -31,13 +31,17 @@ public struct WeaponStats
     public float fireDistance;
     public bool repeating;
     public LayerMask weaponHitLayers;
+    public int totalBullets;
 }
 
 public class WeaponComponent : MonoBehaviour
 {
     public Transform gripLocation;
+    public Transform firingEffectLocation;
 
     protected WeaponHolder weaponHolder;
+    [SerializeField]
+    protected ParticleSystem firingEffect;
 
     [SerializeField]
     public WeaponStats weaponStats;
@@ -51,9 +55,9 @@ public class WeaponComponent : MonoBehaviour
         mainCamera = Camera.main;
     }
 
-    void Update()
+    void Start()
     {
-        
+        firingEffect.gameObject.transform.parent = firingEffectLocation;
     }
 
     public void Initialize(WeaponHolder _weaponHolder)
@@ -79,11 +83,48 @@ public class WeaponComponent : MonoBehaviour
     {
         isFiring = false;
         CancelInvoke(nameof(FireWeapon));
+        if(firingEffect.isPlaying)
+        {
+            firingEffect.Stop();
+        }
+        //Debug.Log("Stopped firing weapon");
     }
 
     protected virtual void FireWeapon()
     {
-        print("Firing Weapon!");
+        //print("Firing Weapon!");
         weaponStats.bulletsInClip--;
+    }
+
+    // deal with ammo counts and maybe particle effects
+    public virtual void StartReloading()
+    {
+        isReloading = true;
+        ReloadWeapon();
+    }
+
+    public virtual void StopReloading()
+    {
+        isReloading = false;
+    }
+
+    protected virtual void ReloadWeapon()
+    {
+        if(firingEffect.isPlaying)
+        {
+            firingEffect.Stop();
+        }
+
+        int bulletsToReload = weaponStats.clipSize - weaponStats.totalBullets;
+        if(bulletsToReload < 0)
+        {
+            weaponStats.bulletsInClip = weaponStats.clipSize;
+            weaponStats.totalBullets -= weaponStats.clipSize;
+        }
+        else
+        {
+            weaponStats.bulletsInClip = weaponStats.totalBullets;
+            weaponStats.totalBullets = 0;
+        }
     }
 }
