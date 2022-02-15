@@ -84,8 +84,8 @@ MonoBehaviour:
     damage: 35
     bulletsInClip: 2
     clipSize: 30
-    fireStartDelay: 0.07
-    fireRate: 7.5
+    fireStartDelay: 0
+    fireRate: 0.125
     weaponFiringPattern: 1
     fireDistance: 500
     repeating: 1
