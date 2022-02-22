@@ -32,13 +32,20 @@ public class MovementComponent : MonoBehaviour
     public readonly int isRunningHash = Animator.StringToHash("isRunning");
     public readonly int isFiringHash = Animator.StringToHash("isFiring");
     public readonly int isReloadingHash = Animator.StringToHash("isReloading");
+    public readonly int aimVerticalHash = Animator.StringToHash("AimVertical");
 
     private void Awake() 
     {
         playerAnimator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
         playerController = GetComponent<PlayerController>();
+
+        if(!GameManager.instance.cursorActive)
+        {
+            AppEvents.InvokeMouseCursorEnable(false);
+        }
     }
+
     void Start()
     {
         
@@ -71,7 +78,8 @@ public class MovementComponent : MonoBehaviour
         // rotate the player rotation based on look transform
         transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
 
-        followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0); 
+        followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
+        playerAnimator.SetFloat(aimVerticalHash, 1);
 
         // movement
         if(playerController.isJumping) return;
@@ -101,6 +109,8 @@ public class MovementComponent : MonoBehaviour
 
     public void OnJump(InputValue value)
     {
+        if(playerController.isJumping) return;
+
         playerController.isJumping = value.isPressed;
         rigidbody.AddForce((transform.up + moveDirection) * jumpForce, ForceMode.Impulse);
         playerAnimator.SetBool(isJumpingHash, playerController.isJumping);
@@ -114,6 +124,8 @@ public class MovementComponent : MonoBehaviour
     public void OnLook(InputValue value)
     {
         lookInput = value.Get<Vector2>();
+        float lookParameter = Mathf.InverseLerp(70, 300, followTarget.transform.localEulerAngles.y);
+        //playerAnimator.SetFloat(aimVerticalHash, lookInput.y);
         // if we aim up, down, adjust animations to have a mask that will let us properly animate aim
     }
 
