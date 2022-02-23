@@ -79,7 +79,7 @@ public class MovementComponent : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
 
         followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
-        playerAnimator.SetFloat(aimVerticalHash, 1);
+        //playerAnimator.SetFloat(aimVerticalHash, 1);
 
         // movement
         if(playerController.isJumping) return;
