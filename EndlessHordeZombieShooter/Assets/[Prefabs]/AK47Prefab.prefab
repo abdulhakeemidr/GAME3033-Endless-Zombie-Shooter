@@ -82,7 +82,7 @@ MonoBehaviour:
     weaponType: 2
     weaponName: AK-47
     damage: 35
-    bulletsInClip: 2
+    bulletsInClip: 30
     clipSize: 30
     fireStartDelay: 0
     fireRate: 0.125
