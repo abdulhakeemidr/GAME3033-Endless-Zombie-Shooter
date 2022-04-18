@@ -59,5 +59,4 @@ public abstract class GameHUDWidget : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-
 }

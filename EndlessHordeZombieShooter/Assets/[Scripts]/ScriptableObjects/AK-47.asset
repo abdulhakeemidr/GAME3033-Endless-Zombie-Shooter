@@ -31,5 +31,5 @@ MonoBehaviour:
     repeating: 1
     weaponHitLayers:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 4294967295
     totalBullets: 200

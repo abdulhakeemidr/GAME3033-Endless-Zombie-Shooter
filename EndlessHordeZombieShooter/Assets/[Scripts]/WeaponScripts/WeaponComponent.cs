@@ -60,9 +60,14 @@ public class WeaponComponent : MonoBehaviour
         firingEffect.gameObject.transform.parent = firingEffectLocation;
     }
 
-    public void Initialize(WeaponHolder _weaponHolder)
+    public void Initialize(WeaponHolder _weaponHolder, WeaponScriptable weaponScriptable)
     {
         weaponHolder = _weaponHolder;
+
+        if(weaponScriptable)
+        {
+            weaponStats = weaponScriptable.weaponStats;
+        }
     }
 
     // decide whether it is automatic or semi-auto here

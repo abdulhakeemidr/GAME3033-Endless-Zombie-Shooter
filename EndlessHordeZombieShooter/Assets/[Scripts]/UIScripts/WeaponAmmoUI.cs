@@ -28,7 +28,7 @@ public class WeaponAmmoUI : MonoBehaviour
         PlayerEvents.onWeaponEquipped -= onWeaponEquipped;
     }
 
-    void onWeaponEquipped(WeaponComponent _weaponComponent)
+    public void onWeaponEquipped(WeaponComponent _weaponComponent)
     {
         weaponComponent = _weaponComponent;
     }
